@@ -1,0 +1,120 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.container {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.controls {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  flex: 3;
+  max-width: 25rem;
+  background: #14161a;
+  position: relative;
+  color: #fff;
+  border-right: 0.5px solid gray;
+}
+.controls h1,
+h2,
+h3 {
+  padding: 1rem;
+  /* white-space: nowrap; */
+}
+.showcase {
+  width: 100%;
+  min-height: 100vh;
+}
+
+.fence-box {
+  background: darkorange;
+  padding: 1rem;
+  margin: 6px;
+  width: 100%;
+  font-size: large;
+  display: flex;
+  justify-content: space-between;
+}
+
+.fence-box .edit {
+  display: none;
+  font-size: small;
+  padding: 4px 1rem;
+}
+
+.fence-box:hover .edit {
+  display: block;
+}
+
+.controls input {
+  border: none;
+}
+
+.manual-control {
+  margin-top: 2rem;
+}
+
+.manual-control > * {
+  margin-bottom: 1.5rem;
+}
+
+.map-container {
+  width: 100%;
+  height: 100vh;
+}
+
+.map {
+  flex: 7;
+  height: 100vh;
+}
+
+.controls .map-not-available {
+  display: none;
+  padding: 0 1rem;
+}
+
+@media screen and (max-width: 600px) {
+  .container {
+    flex-direction: column;
+  }
+  .map,
+  .map-container {
+    height: 50vh;
+    flex: 5;
+  }
+  .controls {
+    max-width: 100%;
+    height: 50vh;
+    flex: 5;
+  }
+  .controls .map-not-available {
+    display: block;
+  }
+}
+
+.highlight {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.combobox-input {
+  width: 100%;
+  padding: 0.5rem;
+}

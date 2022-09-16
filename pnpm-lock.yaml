@@ -1,45 +1,63 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@googlemaps/markerclusterer': ^2.0.11
   '@reach/combobox': ^0.17.0
   '@react-google-maps/api': ^2.12.2
   '@reduxjs/toolkit': ^1.8.5
+  '@types/debounce': ^1.2.1
   '@types/google-map-react': ^2.1.7
-  '@types/googlemaps': ^3.0.0
+  '@types/google.maps': ^3.50.1
+  '@types/lodash': ^4.14.185
   '@types/markerclustererplus': ^2.1.29
+  '@types/node': ^18.7.18
   '@types/react': ^17.0.2
   '@types/react-dom': ^17.0.2
+  '@types/uuid': ^8.3.4
   '@vitejs/plugin-react': ^2.1.0
   autoprefixer: ^10.4.8
   google-map-react: ^2.2.0
+  lodash: ^4.17.21
   postcss: ^8.4.16
   react: ^17.0.2
   react-dom: ^17.0.2
+  react-geolocated: ^4.0.3
+  react-hook-form: ^7.35.0
   react-redux: ^8.0.2
   redux-saga: ^1.2.1
   tailwindcss: ^3.1.8
   typescript: ^4.6.4
   use-places-autocomplete: ^4.0.0
+  uuid: ^9.0.0
   vite: ^3.1.0
 
 dependencies:
+  '@googlemaps/markerclusterer': 2.0.11
   '@reach/combobox': 0.17.0_sfoxds7t5ydpegc3knd667wn6m
   '@react-google-maps/api': 2.12.2_sfoxds7t5ydpegc3knd667wn6m
   '@reduxjs/toolkit': 1.8.5_thunyjspsylz6iliyoygaytnnq
+  '@types/debounce': 1.2.1
   '@types/google-map-react': 2.1.7
-  '@types/googlemaps': 3.43.3
+  '@types/lodash': 4.14.185
   '@types/markerclustererplus': 2.1.33
+  '@types/node': 18.7.18
+  '@types/uuid': 8.3.4
   autoprefixer: 10.4.11_postcss@8.4.16
   google-map-react: 2.2.0_sfoxds7t5ydpegc3knd667wn6m
+  lodash: 4.17.21
   postcss: 8.4.16
   react: 17.0.2
   react-dom: 17.0.2_react@17.0.2
+  react-geolocated: 4.0.3_react@17.0.2
+  react-hook-form: 7.35.0_react@17.0.2
   react-redux: 8.0.2_wwhe23kdoifxkyhsv4sd73qu4q
   redux-saga: 1.2.1
   tailwindcss: 3.1.8_postcss@8.4.16
   use-places-autocomplete: 4.0.0_react@17.0.2
+  uuid: 9.0.0
 
 devDependencies:
+  '@types/google.maps': 3.50.1
   '@types/react': 17.0.50
   '@types/react-dom': 17.0.17
   '@vitejs/plugin-react': 2.1.0_vite@3.1.0
@@ -344,6 +362,13 @@ packages:
       supercluster: 7.1.5
     dev: false
 
+  /@googlemaps/markerclusterer/2.0.11:
+    resolution: {integrity: sha512-/Rhqqq12vGwg+EuzaQtzjqrF5CFiGlJpPlC+bjVH/WYbZ4gPGARuEzWqRhY8m1u2cZDHF0yZrJKPOuYzc+2PcA==}
+    dependencies:
+      fast-deep-equal: 3.1.3
+      supercluster: 7.1.5
+    dev: false
+
   /@jridgewell/gen-mapping/0.1.1:
     resolution: {integrity: sha512-sQXCasFk+U8lWYEe66WxRDOE9PjVz4vSM51fTu3Hw+ClTpUSQb718772vH3pyS5pShp6lvQM7SxgIDXXXmOX7w==}
     engines: {node: '>=6.0.0'}
@@ -589,6 +614,10 @@ packages:
       reselect: 4.1.6
     dev: false
 
+  /@types/debounce/1.2.1:
+    resolution: {integrity: sha512-epMsEE85fi4lfmJUH/89/iV/LI+F5CvNIvmgs5g5jYFPfhO2S/ae8WSsLOKWdwtoaZw9Q2IhJ4tQ5tFCcS/4HA==}
+    dev: false
+
   /@types/google-map-react/2.1.7:
     resolution: {integrity: sha512-7pquMUU20kVwbfEV91iAWXjApSkqoODkfUwTSmJpU9Tgd+ecX+MrQnplCqrSqKrPF1VjfvyWnDEicdoSd0G5qA==}
     dependencies:
@@ -598,17 +627,15 @@ packages:
   /@types/google-maps/3.2.3:
     resolution: {integrity: sha512-+GR/7sMvo2bENS26H4t2QqoCqE4FE5qhsG8aaDM9mJAlsorkLyaFdTQra8VkmS1RNE09fx9c1kac+GKG0RtA2A==}
     dependencies:
-      '@types/google.maps': 3.49.2
+      '@types/google.maps': 3.50.1
     dev: false
 
   /@types/google.maps/3.49.2:
     resolution: {integrity: sha512-ZO1qWciukqED9qcUNW7OaPXWnTlT+tO3WcYkmudZyQW2BqD7TlMFRrdqSCoqfwKhERCwBA5A/YZt/g5A3BqgLQ==}
     dev: false
 
-  /@types/googlemaps/3.43.3:
-    resolution: {integrity: sha512-ZWNoz/O8MPEpiajvj7QiqCY8tTLFNqNZ/a+s+zTV58wFVNAvvqV4bdGfnsjTb5Cs4V6wEsLrX8XRhmnyYJ2Tdg==}
-    deprecated: 'Types for the Google Maps browser API have moved to @types/google.maps. Note: these types are not for the googlemaps npm package, which is a Node API.'
-    dev: false
+  /@types/google.maps/3.50.1:
+    resolution: {integrity: sha512-Wd3+cZwIk2DhDDosYCvXREvBfRAy9eXTf44YOcOKXhzN88AnLOCO+vrKH0N+QiP3SUtf7A6hn3yVJrMdXIqp1g==}
 
   /@types/hoist-non-react-statics/3.3.1:
     resolution: {integrity: sha512-iMIqiko6ooLrTh1joXodJK5X9xeEALT1kM5G3ZLhD3hszxBdIEd5C75U834D9mLcINgD4OyZf5uQXjkuYydWvA==}
@@ -617,10 +644,18 @@ packages:
       hoist-non-react-statics: 3.3.2
     dev: false
 
+  /@types/lodash/4.14.185:
+    resolution: {integrity: sha512-evMDG1bC4rgQg4ku9tKpuMh5iBNEwNa3tf9zRHdP1qlv+1WUg44xat4IxCE14gIpZRGUUWAx2VhItCZc25NfMA==}
+    dev: false
+
   /@types/markerclustererplus/2.1.33:
     resolution: {integrity: sha512-ZDxsLUp8BmK9MVZZeQVDDzVrEXgRL0021AQcfXqfreFhdfZ9+PS0P6o4nZBvoIVYTmGSBemdCdI6mL6hf9yWvg==}
     dependencies:
       '@types/google-maps': 3.2.3
+    dev: false
+
+  /@types/node/18.7.18:
+    resolution: {integrity: sha512-m+6nTEOadJZuTPkKR/SYK3A2d7FZrgElol9UP1Kae90VVU4a6mxnPuLiIW1m4Cq4gZ/nWb9GrdVXJCoCazDAbg==}
     dev: false
 
   /@types/prop-types/15.7.5:
@@ -651,6 +686,10 @@ packages:
 
   /@types/use-sync-external-store/0.0.3:
     resolution: {integrity: sha512-EwmlvuaxPNej9+T4v5AuBPJa2x2UOJVdjCtDHgcDqitUeOtjnJKJ+apYjVcAoBEMjKW1VVFGZLUb5+qqa09XFA==}
+    dev: false
+
+  /@types/uuid/8.3.4:
+    resolution: {integrity: sha512-c/I8ZRb51j+pYGAu5CrFMRxqZ2ke4y2grEBO5AUjgSkSk+qT2Ea+OdWElz/OiMf5MNpn2b17kuVBwZLQJXzihw==}
     dev: false
 
   /@vitejs/plugin-react/2.1.0_vite@3.1.0:
@@ -1228,6 +1267,10 @@ packages:
     engines: {node: '>=10'}
     dev: false
 
+  /lodash/4.17.21:
+    resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
+    dev: false
+
   /loose-envify/1.4.0:
     resolution: {integrity: sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==}
     hasBin: true
@@ -1402,6 +1445,23 @@ packages:
       object-assign: 4.1.1
       react: 17.0.2
       scheduler: 0.20.2
+    dev: false
+
+  /react-geolocated/4.0.3_react@17.0.2:
+    resolution: {integrity: sha512-p+BObdbWT4kINILkUZtqkWHippBsCLnQ+dyx9Bnd+m3086Xkw7VKWxcFavCd2pG6AM50jsiMJiDu0+DjelnT9g==}
+    peerDependencies:
+      react: '>= 16.8.0 < 19.0.0'
+    dependencies:
+      react: 17.0.2
+    dev: false
+
+  /react-hook-form/7.35.0_react@17.0.2:
+    resolution: {integrity: sha512-9CYdOed+Itbiu5VMVxW0PK9mBR3f0gDGJcZEyUSm0eJbDymQ913TRs2gHcQZZmfTC+rtxyDFRuelMxx/+xwMcw==}
+    engines: {node: '>=12.22.0'}
+    peerDependencies:
+      react: ^16.8.0 || ^17 || ^18
+    dependencies:
+      react: 17.0.2
     dev: false
 
   /react-is/16.13.1:
@@ -1674,6 +1734,11 @@ packages:
 
   /util-deprecate/1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
+    dev: false
+
+  /uuid/9.0.0:
+    resolution: {integrity: sha512-MXcSTerfPa4uqyzStbRoTgt5XIe3x5+42+q1sDuy3R5MDk66URdLMOZe5aPX/SQd+kuYAh0FdP/pO28IkQyTeg==}
+    hasBin: true
     dev: false
 
   /vite/3.1.0:

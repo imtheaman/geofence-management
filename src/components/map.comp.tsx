@@ -1,17 +1,39 @@
-import {
-  GoogleMap,
-  Circle,
-  Marker
-} from '@react-google-maps/api'
-import '../App.css'
+import { GoogleMap, MarkerClusterer } from "@react-google-maps/api";
+import "../App.css";
 
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo } from "react";
+import Geofence from "./geofence.comp";
+import { useAppDispatch, useAppSelector } from "../redux/store";
+import { useGeolocated } from "react-geolocated";
+import {
+  setEditableCircle,
+  setEditMode,
+  setMapCenter,
+} from "../redux/slices/geofence";
+
 // ntccp
 type MapOptions = google.maps.MapOptions;
 
 const Map = () => {
-  const [geofences, setGeofences] = useState([{id: 'xyz', lat: 24.876, lng: 86.567, radius: 300}, {id: 'abc', lat: 34.856, lng: 86.567, radius: 300}])
-  const [center, setCenter] = useState({lat: 24.856, lng: 86.567});
+  const [geofences, editableCircle, mapCenter, editMode] = useAppSelector(
+    ({ geofenceState: { editMode, editableCircle, geofences, mapCenter } }) => [
+      geofences,
+      editableCircle,
+      mapCenter,
+      editMode,
+    ]
+  );
+  
+  const dispatch = useAppDispatch();
+  const { coords, isGeolocationEnabled } = useGeolocated();
+
+  useEffect(() => {
+    if (!isGeolocationEnabled)
+      console.log("geolocation permission not granted");
+    if (coords)
+      dispatch(setMapCenter({ lat: coords.latitude, lng: coords.longitude }));
+  }, [coords]);
+
   const mapOptions = useMemo<MapOptions>(
     () => ({
       disableDefaultUI: true,
@@ -20,55 +42,43 @@ const Map = () => {
     []
   );
 
-  const circleOptions = useMemo<any>(
-    () => ({
-      strokeColor: "orange",
-      fillColor: "orange",
-      fillOpacity: 0.1,
-      strokeWeight: 2,
-    }),
-    []
-  );
-
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     setCenter({lat: 34.856, lng: 86.567})
-  //   }, 6000)
-  // }, [])
-
-  const onCircleLoad = useCallback(
-    (shape: google.maps.Circle, id: string) =>
-      ["radius_changed", "center_changed"].forEach((event) =>
-        shape.addListener(event, () => {
-          const center = shape.getCenter()!;
-          const latitude = center.lat().toString();
-          const longitude = center.lng().toString();
-          const radius = Math.floor(shape.getRadius());
-          console.log("event running", latitude, longitude, radius, id);
+  const onMapLoad = useCallback((map: google.maps.Map) => {
+    map.addListener("click", (mapMouseEvent: google.maps.MapMouseEvent) => {
+      dispatch(
+        setEditableCircle({
+          identifier: "",
+          latitude: mapMouseEvent.latLng!.lat(),
+          longitude: mapMouseEvent.latLng!.lng(),
+          radius: 100,
         })
-      ),
-    []
-  );
+      );
+      dispatch(setEditMode("ADD"));
+    });
+  }, []);
 
   return (
-    <div className='map'>
-      <GoogleMap 
+    <GoogleMap
       zoom={16}
-      mapContainerClassName='map-container'
+      mapContainerClassName="map-container"
       options={mapOptions}
-      center={center}
-      onLoad={(map) => console.log('map loaded')}>
-        <Marker position={{lat: 34.567, lng: 86.567}} />
-          <Circle options={circleOptions} center={{lat: 34.567, lng: 86.567}} radius={300} onLoad={(circle) => onCircleLoad(circle, 'id')}/>
-        {/* {geofences.map(({lat, lng, id, radius}) => (
-        <>
-          <Marker position={{lat, lng}} />
-          <Circle options={circleOptions} key={id} center={{lat, lng}} radius={radius} onLoad={(circle) => onCircleLoad(circle, id)}/>
-        </>
-        ))} */}
-        </GoogleMap>
-    </div>
-  )
-}
+      center={mapCenter}
+      onLoad={onMapLoad}
+    >
+      <MarkerClusterer>
+        {/* @ts-ignore */}
+        {(clusterer: any) =>
+          (editMode === "VIEW" ? geofences : [editableCircle]).map((fence) => (
+            <Geofence
+              key={fence!.id}
+              {...fence}
+              editable={editMode !== "VIEW"}
+              clusterer={clusterer}
+            />
+          ))
+        }
+      </MarkerClusterer>
+    </GoogleMap>
+  );
+};
 
-export default Map
+export default Map;

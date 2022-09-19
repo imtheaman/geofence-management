@@ -23,6 +23,7 @@ export function* fetchData() {
   const data: { data: Geofence[] } = yield res.json();
   console.log(data.data, "from fetchData");
   yield put(setGeofences(data.data));
+  // @ts-ignore
   const center = getCenter(data.data.map(({latitude, longitude}) => ({latitude,  longitude})));
   if (!center) return;
   yield put(setMapCenter({lat: center.latitude, lng: center.longitude}))

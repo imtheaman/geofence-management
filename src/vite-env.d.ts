@@ -15,15 +15,16 @@ export interface Geofence extends Details {
 }
 
 export type Details = {
-  latitude: number;
-  longitude: number;
-  radius: number;
-  identifier: string;
+  latitude?: number;
+  longitude?: number;
+  radius?: number;
+  identifier?: string;
+  notify_on_entry?: boolean;
+  notify_on_exit?: boolean;
 };
 
-export type UpdateDetails = {
+export interface UpdateDetails extends Details {
   id: string;
-  details: Details;
 };
 
 export type AddDetails = Details;

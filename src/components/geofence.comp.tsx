@@ -1,15 +1,15 @@
 import { Circle, Marker } from "@react-google-maps/api";
 import React, { memo, useCallback, useMemo } from "react";
-
 import { setEditableCircle } from "../redux/slices/geofence";
 import { useAppDispatch } from "../redux/store";
-let timeout: any;
 
 interface Props {
   latitude: number;
   longitude: number;
   radius: number;
   identifier: string;
+  notify_on_entry: boolean;
+  notify_on_exit: boolean;
   id: string;
   editable: boolean;
   clusterer: any;
@@ -22,12 +22,13 @@ const Geofence: React.FC<Props> = ({
   identifier,
   radius,
   editable,
+  notify_on_entry,
+  notify_on_exit,
   clusterer,
 }) => {
-  // const [circleEditable, setCircleEditable] = useState(false);
   const dispatch = useAppDispatch();
 
-  const circleOptions = useMemo<google.maps.CircleOptions>(
+  const activeCircleOptions = useMemo<google.maps.CircleOptions>(
     () => ({
       strokeColor: "orange",
       fillColor: "orange",
@@ -36,10 +37,20 @@ const Geofence: React.FC<Props> = ({
     }),
     []
   );
+
+  const inactiveCircleOptions = useMemo<google.maps.CircleOptions>(
+    () => ({
+      strokeColor: "gray",
+      fillColor: "gray",
+      fillOpacity: 0.1,
+      strokeWeight: 2,
+    }),
+    []
+  );
+
   const onCircleLoad = useCallback((shape: google.maps.Circle, id: string) => {
     ["radius_changed", "center_changed"].forEach((event) =>
       shape.addListener(event, () => {
-        clearTimeout(timeout);
         const center = shape.getCenter()!;
         const latitude = center.lat();
         const longitude = center.lng();
@@ -47,7 +58,6 @@ const Geofence: React.FC<Props> = ({
         console.log("event running", latitude, longitude, radius);
         dispatch(
           setEditableCircle({
-            id,
             latitude,
             longitude,
             radius,
@@ -63,10 +73,9 @@ const Geofence: React.FC<Props> = ({
         position={{ lat: latitude, lng: longitude }}
         title={identifier}
         clusterer={clusterer}
-        // onClick={() => setCircleEditable((prev) => !prev)}
       />
       <Circle
-        options={circleOptions}
+        options={notify_on_entry || notify_on_exit ? activeCircleOptions: inactiveCircleOptions}
         editable={editable}
         key={id}
         center={{ lat: latitude, lng: longitude }}

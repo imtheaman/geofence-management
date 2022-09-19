@@ -16,6 +16,7 @@ specifiers:
   '@types/uuid': ^8.3.4
   '@vitejs/plugin-react': ^2.1.0
   autoprefixer: ^10.4.8
+  geolib: ^3.3.3
   google-map-react: ^2.2.0
   lodash: ^4.17.21
   postcss: ^8.4.16
@@ -43,6 +44,7 @@ dependencies:
   '@types/node': 18.7.18
   '@types/uuid': 8.3.4
   autoprefixer: 10.4.11_postcss@8.4.16
+  geolib: 3.3.3
   google-map-react: 2.2.0_sfoxds7t5ydpegc3knd667wn6m
   lodash: 4.17.21
   postcss: 8.4.16
@@ -1152,6 +1154,10 @@ packages:
     resolution: {integrity: sha512-3hN7NaskYvMDLQY55gnW3NQ+mesEAepTqlg+VEbj7zzqEMBVNhzcGYYeqFo/TlYz6eQiFcp1HcsCZO+nGgS8zg==}
     engines: {node: '>=6.9.0'}
     dev: true
+
+  /geolib/3.3.3:
+    resolution: {integrity: sha512-YO704pzdB/8QQekQuDmFD5uv5RAwAf4rOUPdcMhdEOz+HoPWD0sC7Qqdwb+LAvwIjXVRawx0QgZlocKYh8PFOQ==}
+    dev: false
 
   /glob-parent/5.1.2:
     resolution: {integrity: sha512-AOIgSQCepiJYwP3ARnGx+5VnTu2HBYdzbGP45eLw1vr3zB3vZLeyed1sC9hnbcOc9/SrMyM5RPQrkGz4aS9Zow==}

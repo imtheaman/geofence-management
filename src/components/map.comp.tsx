@@ -1,11 +1,12 @@
 import { GoogleMap, MarkerClusterer } from "@react-google-maps/api";
 import "../App.css";
-
 import React, { useCallback, useEffect, useMemo } from "react";
 import Geofence from "./geofence.comp";
 import { useAppDispatch, useAppSelector } from "../redux/store";
 import { useGeolocated } from "react-geolocated";
+import {v4 as uuid} from 'uuid'
 import {
+  FETCH_DATA,
   setEditableCircle,
   setEditMode,
   setMapCenter,
@@ -25,15 +26,10 @@ const Map = () => {
   );
   
   const dispatch = useAppDispatch();
-  const { coords, isGeolocationEnabled } = useGeolocated();
-
   useEffect(() => {
-    if (!isGeolocationEnabled)
-      console.log("geolocation permission not granted");
-    if (coords)
-      dispatch(setMapCenter({ lat: coords.latitude, lng: coords.longitude }));
-  }, [coords]);
-
+    dispatch(FETCH_DATA());
+  }, [])
+  
   const mapOptions = useMemo<MapOptions>(
     () => ({
       disableDefaultUI: true,
@@ -42,19 +38,20 @@ const Map = () => {
     []
   );
 
-  const onMapLoad = useCallback((map: google.maps.Map) => {
-    map.addListener("click", (mapMouseEvent: google.maps.MapMouseEvent) => {
-      dispatch(
-        setEditableCircle({
-          identifier: "",
-          latitude: mapMouseEvent.latLng!.lat(),
-          longitude: mapMouseEvent.latLng!.lng(),
-          radius: 100,
-        })
-      );
-      dispatch(setEditMode("ADD"));
-    });
-  }, []);
+  // const onMapLoad = useCallback((map: google.maps.Map) => {
+  //   map.addListener("click", (mapMouseEvent: google.maps.MapMouseEvent) => {
+  //     dispatch(
+  //       setEditableCircle({
+  //         id: uuid(),
+  //         identifier: "",
+  //         latitude: mapMouseEvent.latLng!.lat(),
+  //         longitude: mapMouseEvent.latLng!.lng(),
+  //         radius: 100,
+  //       })
+  //     );
+  //     dispatch(setEditMode("ADD"));
+  //   });
+  // }, []);
 
   return (
     <GoogleMap
@@ -62,7 +59,7 @@ const Map = () => {
       mapContainerClassName="map-container"
       options={mapOptions}
       center={mapCenter}
-      onLoad={onMapLoad}
+      // onLoad={onMapLoad}
     >
       <MarkerClusterer>
         {/* @ts-ignore */}

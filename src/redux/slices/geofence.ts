@@ -62,14 +62,7 @@ const geofenceSlice = createSlice({
       state: State,
       action: PayloadAction<Partial<Geofence>>
     ) => {
-      console.log("setting editable circle");
-      state.editableCircle = action.payload;
-
-      // if (action.payload.latitude && action.payload.longitude)
-      //   state.mapCenter = {
-      //     lat: +action.payload.latitude,
-      //     lng: +action.payload.longitude,
-      //   };
+      state.editableCircle = {...state.editableCircle, ...action.payload};
     },
   },
 });

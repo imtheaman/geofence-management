@@ -1,11 +1,13 @@
 import { PayloadAction } from "@reduxjs/toolkit";
 import { call, put } from "redux-saga/effects";
 import { AddDetails, Geofence, UpdateDetails } from "../../../vite-env";
-
+import { getCenter } from "geolib";
 import {
   createGeofence,
   deleteGeofence,
+  setEditMode,
   setGeofences,
+  setMapCenter,
   updateGeofence,
 } from "../../slices/geofence";
 
@@ -21,6 +23,8 @@ export function* fetchData() {
   const data: { data: Geofence[] } = yield res.json();
   console.log(data.data, "from fetchData");
   yield put(setGeofences(data.data));
+  const center = getCenter(data.data.map(({latitude, longitude}) => ({latitude,  longitude})));
+  yield put(setMapCenter({lat: center.latitude, lng: center.longitude}))
 }
 
 export function* deleteData(action: PayloadAction<{ id: string }>) {
@@ -32,6 +36,7 @@ export function* deleteData(action: PayloadAction<{ id: string }>) {
   const data: { data: { message: string } } = yield res.json();
   yield put(deleteGeofence({ id: action.payload.id }));
   data.data.message === "Deleted" && alert("delete success");
+  yield put(setEditMode('VIEW'))
 }
 
 export function* updateData(action: PayloadAction<UpdateDetails>) {
@@ -44,6 +49,7 @@ export function* updateData(action: PayloadAction<UpdateDetails>) {
   const data: Geofence = yield res.json();
   yield put(updateGeofence(data));
   data.id && alert("update success");
+  yield put(setEditMode('VIEW'))
 }
 
 export function* createData(action: PayloadAction<AddDetails>) {
@@ -59,4 +65,5 @@ export function* createData(action: PayloadAction<AddDetails>) {
   const data: Geofence = yield res.json();
   yield put(createGeofence(data));
   data.id && alert("create success");
+  yield put(setEditMode('VIEW'))
 }

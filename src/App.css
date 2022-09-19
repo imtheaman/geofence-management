@@ -32,7 +32,7 @@ input.error {
   padding: 0 6px;
   position: relative;
   flex: 3;
-  max-width: 25rem;
+  max-width: 20rem;
   background: #14161a;
   color: #fff;
   border-right: 0.5px solid gray;
@@ -40,6 +40,9 @@ input.error {
 .controls form {
   display: flex;
   flex-direction: column;
+}
+.controls form > * {
+  margin-bottom: 12px;
 }
 .controls h1,
 h2,
@@ -52,13 +55,21 @@ h3 {
 }
 
 .fence-box {
-  background: darkorange;
-  padding: 1rem;
-  margin: 6px;
+  padding: 2px 12px;
+  border-radius: 6px;
+  margin-bottom: 12px;
   width: 100%;
   font-size: large;
   display: flex;
   justify-content: space-between;
+}
+
+.fence-box.active {
+  background-color: darkorange;
+}
+
+.fence-box.inactive {
+  background-color: gray;
 }
 
 .fence-box .edit {
@@ -74,7 +85,6 @@ h3 {
 .controls input {
   border: none;
   padding: 1rem;
-  margin-bottom: 8px;
   border-radius: 8px;
 }
 

@@ -1,13 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
 import AddIcon from "../assets/add.svg";
-import { setEditMode, setEditableCircle } from "../redux/slices/geofence";
+import { setEditMode, setEditableCircle, setMapCenter } from "../redux/slices/geofence";
 import { useAppDispatch, useAppSelector } from "../redux/store";
+import {v4 as uuid} from 'uuid'
+import { useGeolocated } from "react-geolocated";
 
 const Add = () => {
   const dispatch = useAppDispatch();
-  const mapCenter = useAppSelector(
-    ({ geofenceState: { mapCenter } }) => mapCenter
-  );
+  const { coords, isGeolocationEnabled } = useGeolocated();
+  
+  useEffect(() => {
+    if (!isGeolocationEnabled)
+    console.log("geolocation permission not granted");
+    if (coords)
+    dispatch(setMapCenter({ lat: coords.latitude, lng: coords.longitude }));
+  }, [coords]);
+
+  const mapCenter = useAppSelector(({geofenceState: {mapCenter}}) => mapCenter)
+
   return (
     <button
       style={{
@@ -30,10 +40,13 @@ const Add = () => {
         dispatch(setEditMode("ADD"));
         dispatch(
           setEditableCircle({
+            id: uuid(),
             identifier: "",
             latitude: mapCenter.lat,
             longitude: mapCenter.lng,
             radius: 100,
+            notify_on_entry: true,
+            notify_on_exit: true
           })
         );
       }}

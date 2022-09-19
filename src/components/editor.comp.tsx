@@ -1,7 +1,7 @@
-import { ChangeEvent, useCallback } from "react";
-import { setEditableCircle } from "../redux/slices/geofence";
+import { FormEvent, useCallback, useEffect, useState } from "react";
+import { CREATE_GEOFENCE, DELETE_GEOFENCE, setEditableCircle, UPDATE_GEOFENCE } from "../redux/slices/geofence";
 import { useAppDispatch, useAppSelector } from "../redux/store";
-import { debounce } from "lodash";
+import '../App.css'
 
 const Editor = () => {
   const dispatch = useAppDispatch();
@@ -10,99 +10,77 @@ const Editor = () => {
       { ...editableCircle },
       editMode,
     ]
-  );
+    );
+  const { identifier, latitude, longitude, radius, id, notify_on_entry, notify_on_exit } = editableCircle;
 
-  const { identifier, latitude, longitude, radius } = editableCircle;
-  console.log("running editor");
-  const HandleChange = useCallback(
-    (e: ChangeEvent<HTMLInputElement>, code: string) => {
-      switch (code) {
-        case "IDENTIFIER":
-          debounce(
-            () =>
-              dispatch(
-                setEditableCircle({
-                  ...editableCircle,
-                  identifier: e.target.value,
-                })
-              ),
-            200
-          );
-          return;
-        case "LATITUDE":
-          debounce(
-            () =>
-              dispatch(
-                setEditableCircle({
-                  ...editableCircle,
-                  latitude: +e.target.value,
-                })
-              ),
-            200
-          );
-          return;
-        case "LONGITUDE":
-          debounce(
-            () =>
-              dispatch(
-                setEditableCircle({
-                  ...editableCircle,
-                  longitude: +e.target.value,
-                })
-              ),
-            200
-          );
-          return;
-        case "RADIUS":
-          debounce(
-            () =>
-              dispatch(
-                setEditableCircle({
-                  ...editableCircle,
-                  radius: +e.target.value,
-                })
-              ),
-            200
-          );
-          return;
-      }
-    },
-    []
-  );
+  const [lat, setLat] = useState<string>(latitude+'');
+  const [lng, setLng] = useState<string>(longitude+'');
+  const [idf, setIdf] = useState(identifier);
+  const [rad, setRad] = useState(radius);
 
-  const HandleSubmit = () => {};
+  
+  const HandleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log(editableCircle)
+    if (!identifier || !latitude || !longitude || !radius) {
+      alert('please enter all the values')
+      return;
+    }
+    editMode === 'ADD' ? dispatch(CREATE_GEOFENCE(editableCircle)) : dispatch(UPDATE_GEOFENCE(editableCircle));
+  };
 
+  useEffect(() => {
+    +lat !== latitude && setLat(latitude!.toString());
+    +lng !== longitude && setLng(longitude!.toString());
+    rad !== radius && setRad(radius);
+  }, [latitude, longitude, radius])
+  
+  useEffect(() => {
+    dispatch(setEditableCircle({
+      latitude: +lat,
+      identifier: idf,
+      longitude: +lng,
+      radius: rad,
+    }))
+  },[lat, idf, lng, rad])
+
+  const HandleDelete = (id: string) => dispatch(DELETE_GEOFENCE({id}));
+  const ToggleDisable = (id: string, notify_on_entry: boolean, notify_on_exit: boolean) => dispatch(UPDATE_GEOFENCE({id,
+    notify_on_entry: !notify_on_entry,
+    notify_on_exit: !notify_on_exit
+  }));
   return (
     <>
       <h2>Editor</h2>
       <form onSubmit={HandleSubmit}>
         <input
           placeholder="identifier"
-          className={!identifier ? "error" : ""}
-          // value={identifier}
-          onChange={(e) => HandleChange(e, "IDENTIFIER")}
+          className={!idf ? "error" : ""}
+          value={idf}
+          onChange={e => setIdf(e.target.value)}
         />
         <input
           placeholder="latitude"
-          className={!latitude ? "error" : ""}
-          // value={latitude}
-          onChange={(e) => HandleChange(e, "LATITUDE")}
+          className={!lat ? "error" : ""}
+          value={lat}
+          onChange={e => setLat(e.target.value)}
         />
         <input
           placeholder="longitude"
-          className={!longitude ? "error" : ""}
-          // value={longitude}
-          onChange={(e) => HandleChange(e, "LONGITUDE")}
+          className={!lng ? "error" : ""}
+          value={lng}
+          onChange={e => setLng(e.target.value)}
         />
         <input
           placeholder="radius"
-          className={!radius ? " error" : ""}
-          // value={radius}
+          className={!rad ? "error" : ""}
+          value={rad}
           type="number"
-          onChange={(e) => HandleChange(e, "RADIUS")}
+          onChange={e => setRad(+e.target.value)}
         />
-
         <input type="submit" value={editMode === "ADD" ? "Add" : "Update"} />
+        {editMode === 'EDIT' && <button style={{backgroundColor: notify_on_entry || notify_on_exit ? 'gray' : 'green'}} onClick={() => ToggleDisable(id!, notify_on_entry!, notify_on_exit!)}>{notify_on_entry || notify_on_exit ? 'Disable' : 'Enable'}</button>}
+        {editMode === 'EDIT' && <button style={{backgroundColor: 'red'}} onClick={() => HandleDelete(id!)}>Delete</button>}
       </form>
     </>
   );

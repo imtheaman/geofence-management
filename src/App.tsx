@@ -25,7 +25,7 @@ const App = () => {
     editMode,
   ]);
   const { isLoaded } = useLoadScript({
-    googleMapsApiKey: "AIzaSyDxOWNDbrvL_AM863ICsg9bEXZJwuCglKE",
+    googleMapsApiKey: import.meta.env.VITE_GMAP_API,
     libraries: libs,
   });
   if (!isLoaded) return <p>loading...</p>;

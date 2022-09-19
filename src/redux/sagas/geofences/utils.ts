@@ -51,9 +51,9 @@ export function* updateData(action: PayloadAction<UpdateDetails>) {
       },
     })
   );
-  const data: Geofence = yield res.json();
-  yield put(updateGeofence(data));
-  data.id && alert("update success");
+  const data: {data: Geofence} = yield res.json();
+  yield put(updateGeofence(data.data));
+  data.data.id && alert("update success");
   yield put(setEditMode('VIEW'))
 }
 
@@ -67,8 +67,8 @@ export function* createData(action: PayloadAction<AddDetails>) {
       },
     })
   );
-  const data: Geofence = yield res.json();
-  yield put(createGeofence(data));
-  data.id && alert("create success");
+  const data: {data: Geofence} = yield res.json();
+  yield put(createGeofence(data.data));
+  data.data.id && alert("create success");
   yield put(setEditMode('VIEW'))
 }

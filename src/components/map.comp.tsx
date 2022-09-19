@@ -1,15 +1,11 @@
 import { GoogleMap, MarkerClusterer } from "@react-google-maps/api";
 import "../App.css";
-import React, { useCallback, useEffect, useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import Geofence from "./geofence.comp";
 import { useAppDispatch, useAppSelector } from "../redux/store";
-import { useGeolocated } from "react-geolocated";
-import {v4 as uuid} from 'uuid'
+
 import {
   FETCH_DATA,
-  setEditableCircle,
-  setEditMode,
-  setMapCenter,
 } from "../redux/slices/geofence";
 
 // ntccp
@@ -29,7 +25,7 @@ const Map = () => {
   useEffect(() => {
     dispatch(FETCH_DATA());
   }, [])
-  
+
   const mapOptions = useMemo<MapOptions>(
     () => ({
       disableDefaultUI: true,
@@ -54,6 +50,7 @@ const Map = () => {
   // }, []);
 
   return (
+    // @ts-ignore
     <GoogleMap
       zoom={16}
       mapContainerClassName="map-container"
@@ -65,6 +62,7 @@ const Map = () => {
         {/* @ts-ignore */}
         {(clusterer: any) =>
           (editMode === "VIEW" ? geofences : [editableCircle]).map((fence) => (
+            // @ts-ignore
             <Geofence
               key={fence!.id}
               {...fence}

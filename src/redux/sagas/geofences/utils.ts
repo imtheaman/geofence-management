@@ -24,6 +24,7 @@ export function* fetchData() {
   console.log(data.data, "from fetchData");
   yield put(setGeofences(data.data));
   const center = getCenter(data.data.map(({latitude, longitude}) => ({latitude,  longitude})));
+  if (!center) return;
   yield put(setMapCenter({lat: center.latitude, lng: center.longitude}))
 }
 
@@ -40,10 +41,14 @@ export function* deleteData(action: PayloadAction<{ id: string }>) {
 }
 
 export function* updateData(action: PayloadAction<UpdateDetails>) {
+  console.log(action.payload, 'update gen')
   const res: Response = yield call(() =>
     fetch(`${BASE_URL}/${action.payload.id}`, {
       method: "PUT",
       body: JSON.stringify(action.payload),
+      headers: {
+        "Content-Type": "application/json; charset=UTF-8",
+      },
     })
   );
   const data: Geofence = yield res.json();

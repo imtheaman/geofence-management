@@ -1,4 +1,4 @@
-import { FormEvent, useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { CREATE_GEOFENCE, DELETE_GEOFENCE, setEditableCircle, UPDATE_GEOFENCE } from "../redux/slices/geofence";
 import { useAppDispatch, useAppSelector } from "../redux/store";
 import '../App.css'
@@ -19,14 +19,15 @@ const Editor = () => {
   const [rad, setRad] = useState(radius);
 
   
-  const HandleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const HandleSubmit = () => {
     console.log(editableCircle)
     if (!identifier || !latitude || !longitude || !radius) {
       alert('please enter all the values')
       return;
     }
-    editMode === 'ADD' ? dispatch(CREATE_GEOFENCE(editableCircle)) : dispatch(UPDATE_GEOFENCE(editableCircle));
+    editMode === 'ADD' ? dispatch(CREATE_GEOFENCE(editableCircle)) : 
+    // @ts-ignore
+    dispatch(UPDATE_GEOFENCE(editableCircle));
   };
 
   useEffect(() => {
@@ -52,7 +53,7 @@ const Editor = () => {
   return (
     <>
       <h2>Editor</h2>
-      <form onSubmit={HandleSubmit}>
+      <div className="form">
         <input
           placeholder="identifier"
           className={!idf ? "error" : ""}
@@ -78,10 +79,10 @@ const Editor = () => {
           type="number"
           onChange={e => setRad(+e.target.value)}
         />
-        <input type="submit" value={editMode === "ADD" ? "Add" : "Update"} />
+        <button onClick={HandleSubmit}>{editMode === "ADD" ? "Add" : "Update"}</button>
         {editMode === 'EDIT' && <button style={{backgroundColor: notify_on_entry || notify_on_exit ? 'gray' : 'green'}} onClick={() => ToggleDisable(id!, notify_on_entry!, notify_on_exit!)}>{notify_on_entry || notify_on_exit ? 'Disable' : 'Enable'}</button>}
         {editMode === 'EDIT' && <button style={{backgroundColor: 'red'}} onClick={() => HandleDelete(id!)}>Delete</button>}
-      </form>
+        </div>
     </>
   );
 };

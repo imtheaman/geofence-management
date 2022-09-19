@@ -11,7 +11,7 @@ const List = () => {
   const HandleClick = (fence: Geofence) => {
     dispatch(setEditMode('EDIT'));
     dispatch(setEditableCircle(fence))
-    dispatch(setMapCenter({lat: fence.latitude, lng: fence.longitude}))
+    dispatch(setMapCenter({lat: fence.latitude!, lng: fence.longitude!}))
   }
   return (
     <>

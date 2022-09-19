@@ -37,11 +37,11 @@ input.error {
   color: #fff;
   border-right: 0.5px solid gray;
 }
-.controls form {
+.controls .form {
   display: flex;
   flex-direction: column;
 }
-.controls form > * {
+.controls .form > * {
   margin-bottom: 12px;
 }
 .controls h1,

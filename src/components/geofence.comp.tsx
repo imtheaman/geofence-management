@@ -69,6 +69,7 @@ const Geofence: React.FC<Props> = ({
 
   return (
     <div>
+      {/* @ts-ignore */}
       <Marker
         position={{ lat: latitude, lng: longitude }}
         title={identifier}

@@ -12,7 +12,7 @@ import {
 } from "../../slices/geofence";
 
 const BASE_URL =
-  "https://screenzycommercialsllp-125263-ruby.b125263.dev.eastus.az.svc.builder.cafe/bx_block_geofence2/geofence";
+  "https://screenzycommercialsllp-125263-ruby.b125263.stage.eastus.az.svc.builder.ai/bx_block_geofence2/geofence";
 
 export function* fetchData() {
   const res: Response = yield call(() =>
